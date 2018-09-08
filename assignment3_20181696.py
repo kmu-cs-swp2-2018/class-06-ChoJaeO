@@ -33,20 +33,33 @@ def doScoreDB(scdb):
         if inputstr == "": continue
         parse = inputstr.split(" ")
         if parse[0] == 'add':
-            record = {'Name':parse[1], 'Age':parse[2], 'Score':parse[3]}
-            scdb += [record]
+            try:
+                record = {'Name':parse[1], 'Age':parse[2], 'Score':parse[3]}
+                scdb += [record]
+            except:
+                continue
         elif parse[0] == 'find':
-            for p in scdb:
-                if p['Name'] == parse[1]:
-                    showScoreDB(p,'Name')
+            try:
+                for p in scdb:
+                    if p['Name'] == parse[1]:
+                        showScoreDB(p,'Name')
+            except:
+                continue
         elif parse[0] == 'inc':
-            for p in scdb:
-                if p['Name'] == parse[1]:
-                    p['Score'] += str(int(p['Score'])+int(parse[2]))
+            try:
+                for p in scdb:
+                    if p['Name'] == parse[1]:
+#                        print(int(p['Score'])+int(parse[2])) 
+                        p['Score'] = str(int(p['Score'])+int(parse[2]))
+            except:
+                continue
         elif parse[0] == 'del':
-            for p in scdb:
-                if p['Name'] == parse[1]:
-                    scdb.remove(p)
+            try:
+                for p in scdb:
+                    if p['Name'] == parse[1]:
+                        scdb.remove(p)
+            except:
+                continue
         elif parse[0] == 'show':
             sortKey ='Name' if len(parse) == 1 else parse[1]
             showScoreDB(scdb, sortKey)
