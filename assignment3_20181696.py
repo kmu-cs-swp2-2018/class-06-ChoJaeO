@@ -32,23 +32,32 @@ def doScoreDB(scdb):
         inputstr = (input("Score DB > "))
         if inputstr == "": continue
         parse = inputstr.split(" ")
+        l = len(parse)
         if parse[0] == 'add':
+            if l > 4:
+                print("Error")
+                continue
             try:
                 record = {'Name':parse[1], 'Age':parse[2], 'Score':parse[3]}
                 scdb += [record]
             except:
                 continue
         elif parse[0] == 'find':
+            if l > 2:
+                print("Error")
+                continue
             find_person = []
             try:
                 for p in scdb:
                     if p['Name'] == parse[1]:
                         find_person += [p]
-                        
                 showScoreDB(find_person, 'Name')
             except:
                 continue
         elif parse[0] == 'inc':
+            if l > 3:
+                print("Error")
+                continue
             try:
                 for p in scdb:
                     if p['Name'] == parse[1]: 
@@ -56,6 +65,9 @@ def doScoreDB(scdb):
             except:
                 continue
         elif parse[0] == 'del':
+            if l > 2:
+                print("Error")
+                continue
             try:
                 for p in scdb:
                     if p['Name'] == parse[1]:
@@ -63,9 +75,15 @@ def doScoreDB(scdb):
             except:
                 continue
         elif parse[0] == 'show':
+            if l > 1:
+                print("Error")
+                continue
             sortKey ='Name' if len(parse) == 1 else parse[1]
             showScoreDB(scdb, sortKey)
         elif parse[0] == 'quit':
+            if l > 1:
+                print("Error")
+                continue
             break
         else:
             print("Invalid command: " + parse[0])
