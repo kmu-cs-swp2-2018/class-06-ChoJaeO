@@ -39,17 +39,19 @@ def doScoreDB(scdb):
             except:
                 continue
         elif parse[0] == 'find':
+            find_person = []
             try:
                 for p in scdb:
                     if p['Name'] == parse[1]:
-                        showScoreDB(p,'Name')
+                        find_person += [p]
+                        
+                showScoreDB(find_person, 'Name')
             except:
                 continue
         elif parse[0] == 'inc':
             try:
                 for p in scdb:
-                    if p['Name'] == parse[1]:
-#                        print(int(p['Score'])+int(parse[2])) 
+                    if p['Name'] == parse[1]: 
                         p['Score'] = str(int(p['Score'])+int(parse[2]))
             except:
                 continue
