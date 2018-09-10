@@ -32,19 +32,20 @@ def doScoreDB(scdb):
         inputstr = (input("Score DB > "))
         if inputstr == "": continue
         parse = inputstr.split(" ")
-        l = len(parse)
+        length = len(parse)
         if parse[0] == 'add':
-            if l > 4:
-                print("Error")
+            if length > 4:
+                print("Error : You should input parse maximum three")
                 continue
             try:
                 record = {'Name':parse[1], 'Age':parse[2], 'Score':parse[3]}
                 scdb += [record]
+		print("Add Complete")
             except:
                 continue
         elif parse[0] == 'find':
-            if l > 2:
-                print("Error")
+            if length > 2:
+                print("Error : You should input parse maximum one")
                 continue
             find_person = []
             try:
@@ -55,34 +56,40 @@ def doScoreDB(scdb):
             except:
                 continue
         elif parse[0] == 'inc':
-            if l > 3:
-                print("Error")
+            inc_num = 0
+            if length > 3:
+                print("Error : You should input parse maximum two")
                 continue
             try:
                 for p in scdb:
                     if p['Name'] == parse[1]: 
                         p['Score'] = str(int(p['Score'])+int(parse[2]))
+                        inc_num += 1
+                print("Increase" + inc_num + "student(s) score")
             except:
                 continue
         elif parse[0] == 'del':
-            if l > 2:
-                print("Error")
+            if length > 2:
+                print("Error : You should input parse maximum one")
                 continue
             try:
+                del_num = 0
                 for p in scdb:
                     if p['Name'] == parse[1]:
                         scdb.remove(p)
+                        del_num += 1
+                print("Delete" + del_num + "student(s)")
             except:
                 continue
         elif parse[0] == 'show':
-            if l > 1:
-                print("Error")
+            if lenght > 1:
+                print("Error : You don't need to input more parse")
                 continue
             sortKey ='Name' if len(parse) == 1 else parse[1]
             showScoreDB(scdb, sortKey)
         elif parse[0] == 'quit':
-            if l > 1:
-                print("Error")
+            if length > 1:
+                print("Error : You don't need to input more parse")
                 continue
             break
         else:
