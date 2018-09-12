@@ -40,19 +40,30 @@ def doScoreDB(scdb):
             try:
                 record = {'Name':parse[1], 'Age':parse[2], 'Score':parse[3]}
                 scdb += [record]
-		print("Add Complete")
+                print("Add Complete")
+            except IndexError:
+                print("Error : You should input three parses")
+            except ValueError:
+                print("Error : Check the Value")
             except:
                 continue
         elif parse[0] == 'find':
+            find_person = []
             if length > 2:
                 print("Error : You should input parse maximum one")
                 continue
-            find_person = []
             try:
                 for p in scdb:
                     if p['Name'] == parse[1]:
                         find_person += [p]
-                showScoreDB(find_person, 'Name')
+                if find_person == 0:
+                    print(parse[1] + " is not in this list")
+                else:
+                    showScoreDB(find_person, 'Name')
+            except IndexError:
+                print("Error : You should input one parse")
+            except ValueError:
+                print("Error : Check the Value")
             except:
                 continue
         elif parse[0] == 'inc':
@@ -65,33 +76,57 @@ def doScoreDB(scdb):
                     if p['Name'] == parse[1]: 
                         p['Score'] = str(int(p['Score'])+int(parse[2]))
                         inc_num += 1
-                print("Increase" + inc_num + "student(s) score")
+                print(inc_num)
+                if inc_num == 0:
+                    print(parse[1] + " is not in this list")
+                else:
+                    print("Increase " + inc_num + "student(s) score")
+            except IndexError:
+                print("Error : You should input parse more")
+            except ValueError:
+                print("Error : Check the Value")
             except:
                 continue
         elif parse[0] == 'del':
-            if length > 2:
-                print("Error : You should input parse maximum one")
-                continue
             try:
+                if length > 2:
+                    print("Error : You should input parse maximum one")
+                    continue
                 del_num = 0
                 for p in scdb:
                     if p['Name'] == parse[1]:
                         scdb.remove(p)
                         del_num += 1
-                print("Delete" + del_num + "student(s)")
+                if del_num == 0:
+                    print(parse[1] + " is not in this list")
+                else:
+                    print("Delete " + del_num + "student(s)")
+            except IndexError:
+                print("Error : You should input parse more")
+            except ValueError:
+                print("Error : Check the Value")
             except:
                 continue
         elif parse[0] == 'show':
-            if lenght > 1:
-                print("Error : You don't need to input more parse")
+            if length > 2:
+                print("Error : You don't need to input any parse")
+            try:
+                sortKey ='Name' if len(parse) == 1 else parse[1]
+                showScoreDB(scdb, sortKey)
+            except ValueError:
+                print("Error : Check the Value")
+            except:
                 continue
-            sortKey ='Name' if len(parse) == 1 else parse[1]
-            showScoreDB(scdb, sortKey)
         elif parse[0] == 'quit':
-            if length > 1:
-                print("Error : You don't need to input more parse")
+            if length > 2:
+                print("Error : You don't need to input any parse")
+            try:
+                break
+            except ValueError:
+                print("Error : Check the Value")
+            except:
                 continue
-            break
+
         else:
             print("Invalid command: " + parse[0])
         
