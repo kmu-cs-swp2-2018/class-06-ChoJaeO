@@ -35,11 +35,9 @@ ts = time.time()
 
 # binary search
 cnt = 0
-print(numbers)
 length=len(numbers)-1
 for target in targets:
     idx = binsearch(numbers,0,length,target)
-    print(target)
     if idx == -1:
         cnt += 1
 ts = time.time() - ts
