@@ -5,11 +5,9 @@ def iterfibo(n):
     fibo_num = []
     fibo_num.append(0)
     fibo_num.append(1)
-    cnt = 2
-    while n >= cnt:
-        next_num = fibo_num[cnt-2] + fibo_num[cnt-1]
+    for i in range(2,n+1):
+        next_num = fibo_num[i-2] + fibo_num[i-1]
         fibo_num.append(next_num)
-        cnt += 1
     return fibo_num[n]
 
 def fibo(n):
