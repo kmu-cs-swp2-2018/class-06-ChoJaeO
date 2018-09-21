@@ -56,7 +56,7 @@ def doScoreDB(scdb):
                 for p in scdb:
                     if p['Name'] == parse[1]:
                         find_person += [p]
-                if find_person == 0:
+                if len(find_person) == 0:
                     print(parse[1] + " is not in this list")
                 else:
                     showScoreDB(find_person, 'Name')
@@ -89,7 +89,7 @@ def doScoreDB(scdb):
                 continue
         elif parse[0] == 'del':
             try:
-                if length > 2:
+                if length > 1:
                     print("Error : You should input parse maximum one")
                     continue
                 del_num = 0
@@ -108,8 +108,9 @@ def doScoreDB(scdb):
             except:
                 continue
         elif parse[0] == 'show':
-            if length > 2:
+            if length > 1:
                 print("Error : You don't need to input any parse")
+                continue
             try:
                 sortKey ='Name' if len(parse) == 1 else parse[1]
                 showScoreDB(scdb, sortKey)
@@ -118,8 +119,9 @@ def doScoreDB(scdb):
             except:
                 continue
         elif parse[0] == 'quit':
-            if length > 2:
+            if length > 1:
                 print("Error : You don't need to input any parse")
+                continue
             try:
                 break
             except ValueError:
