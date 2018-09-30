@@ -68,11 +68,10 @@ def doScoreDB(scdb):
                     if p['Name'] == parse[1]: 
                         p['Score'] = str(int(p['Score'])+int(parse[2]))
                         inc_num += 1
-                print(inc_num)
                 if inc_num == 0:
-                    print(parse[1] + " is not in this list")
+                    print(str(parse[1]) + " is not in this list")
                 else:
-                    print("Increase " + inc_num + "student(s) score")
+                    print("Increase " + str(inc_num) + "student(s) score")
             except IndexError:
                 print("Error : You should input two parses")
             except ValueError:
@@ -88,9 +87,9 @@ def doScoreDB(scdb):
                         scdb.remove(p)
                         del_num += 1
                 if del_num == 0:
-                    print(parse[1] + " is not in this list")
+                    print(str(parse[1]) + " is not in this list")
                 else:
-                    print("Delete " + del_num + "student(s)")
+                    print("Delete " + str(del_num) + "student(s)")
             except IndexError:
                 print("Error : You should input two parse")
             except ValueError:
