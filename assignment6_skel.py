@@ -29,6 +29,7 @@ class AssLayout(QWidget):
         ShowButton = QPushButton("Show",self)
         self.ResultLabel = QLabel("Result")
         self.ResultText = QTextEdit()
+        self.KeyBox.addItems(['Name','Age','Score'])
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QGridLayout.SetFixedSize)
 
@@ -108,7 +109,7 @@ class AssLayout(QWidget):
                     if len(find_person) == 0:
                         self.ResultText.setText(name + " is not in this list")
                     else:
-                        self.showScoreDB(find_person, 'Name')
+                        self.showScoreDB(find_person, self.KeyBox.currentText())
                 else:
                     self.ResultText.setText("Fill the Name")
             except IndexError:
@@ -159,8 +160,7 @@ class AssLayout(QWidget):
                 self.ResultText.setText("Unknown Error")
         elif inputstr == 'Show':
             try:
-               sortKey = 'Name'
-               print(2)
+               sortKey = self.KeyBox.currentText()
                self.showScoreDB(scdb, sortKey)
             except IndexError:
                 self.ResultText.setText("Error : You don't need more parse")
