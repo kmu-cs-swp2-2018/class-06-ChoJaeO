@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtWidgets import QLineEdit, QToolButton
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtWidgets import QLayout, QGridLayout
-
+import keypad
 
 class Button(QToolButton):
 
@@ -25,7 +25,7 @@ class Calculator(QWidget):
         super().__init__(parent)
 
         # Display Window
-        self.display = QLineEdit('0')
+        self.display = QLineEdit('')
         self.display.setReadOnly(True)
         self.display.setAlignment(Qt.AlignRight)
         self.display.setMaxLength(15)
@@ -39,23 +39,22 @@ class Calculator(QWidget):
         self.decButton = Button('.')
         self.eqButton = Button('=')
 
+        opLayout = QGridLayout()
         # Operator Buttons
-        self.mulButton = Button('*')
-        self.divButton = Button('/')
-        self.addButton = Button('+')
-        self.subButton = Button('-')
-
-        # Parentheses Buttons
-        self.lparButton = Button('(')
-        self.rparButton = Button(')')
-
-        # Clear Button
-        self.clearButton = Button('C')
-
+        r = 0
+        c = 0
+        print(keypad.operatorList)
+        for btnText in keypad.operatorList:
+            button = Button(btnText)
+            opLayout.addWidget(button,r,c)
+            button.clicked.connect(self.buttonClicked)
+            c += 1
+            if c>1:
+                c = 0
+                r += 1
         # Layout
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QLayout.SetFixedSize)
-
         mainLayout.addWidget(self.display, 0, 0, 1, 2)
 
         numLayout = QGridLayout()
@@ -67,31 +66,36 @@ class Calculator(QWidget):
             n = 3-i
             for j in range(3):
                 numLayout.addWidget(self.digitButton[(i-1)*3 + j + 1], n, j)
-                cnt += 1;
+                cnt += 1
 
         numLayout.addWidget(self.decButton, 3, 1)
         numLayout.addWidget(self.eqButton, 3, 2)
 
         mainLayout.addLayout(numLayout, 1, 0)
-
-        opLayout = QGridLayout()
-
-        opLayout.addWidget(self.mulButton, 0, 0)
-        opLayout.addWidget(self.divButton, 0, 1)
-        opLayout.addWidget(self.addButton, 1, 0)
-        opLayout.addWidget(self.subButton, 1, 1)
-
-        opLayout.addWidget(self.lparButton, 2, 0)
-        opLayout.addWidget(self.rparButton, 2, 1)
-
-        opLayout.addWidget(self.clearButton, 3, 0)
-
         mainLayout.addLayout(opLayout, 1, 1)
 
         self.setLayout(mainLayout)
-
         self.setWindowTitle("My Calculator")
 
+        for i in self.digitButton:
+            i.clicked.connect(self.buttonClicked)
+        self.decButton.clicked.connect(self.buttonClicked)
+        self.eqButton.clicked.connect(self.buttonClicked)
+
+    def buttonClicked(self):
+        button = self.sender()
+        inputstr = button.text()
+        if inputstr == '=':
+            try:
+                result = str(eval(self.display.text()))
+                self.display.setText(result)
+            except:
+                self.display.setText("Error")
+        elif inputstr == 'C':
+            self.display.clear()
+        else:
+            text_display = str(self.display.text()) + inputstr
+            self.display.setText(text_display)
 
 if __name__ == '__main__':
 
