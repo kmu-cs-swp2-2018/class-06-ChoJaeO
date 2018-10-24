@@ -33,17 +33,8 @@ class Calculator(QWidget):
         # Digit Buttons
         self.digitButton = [x for x in range(0, 10)]
 
-        self.digitButton[0] = Button('0')
-        self.digitButton[1] = Button('1')
-        self.digitButton[2] = Button('2')
-        self.digitButton[3] = Button('3')
-        self.digitButton[4] = Button('4')
-        self.digitButton[5] = Button('5')
-        self.digitButton[6] = Button('6')
-        self.digitButton[7] = Button('7')
-        self.digitButton[8] = Button('8')
-        self.digitButton[9] = Button('9')
-
+        for i in range(len(self.digitButton)):
+            self.digitButton[i] = Button(str(i))
         # . and = Buttons
         self.decButton = Button('.')
         self.eqButton = Button('=')
@@ -77,18 +68,6 @@ class Calculator(QWidget):
             for j in range(3):
                 numLayout.addWidget(self.digitButton[(i-1)*3 + j + 1], n, j)
                 cnt += 1;
-        """
-        numLayout.addWidget(self.digitButton[0], 3, 0)
-        numLayout.addWidget(self.digitButton[1], 2, 0)
-        numLayout.addWidget(self.digitButton[2], 2, 1)
-        numLayout.addWidget(self.digitButton[3], 2, 2)
-        numLayout.addWidget(self.digitButton[4], 1, 0)
-        numLayout.addWidget(self.digitButton[5], 1, 1)
-        numLayout.addWidget(self.digitButton[6], 1, 2)
-        numLayout.addWidget(self.digitButton[7], 0, 0)
-        numLayout.addWidget(self.digitButton[8], 0, 1)
-        numLayout.addWidget(self.digitButton[9], 0, 2)
-        """
 
         numLayout.addWidget(self.decButton, 3, 1)
         numLayout.addWidget(self.eqButton, 3, 2)
