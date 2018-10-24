@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QAp
 import pickle
 
 dbfilename = 'test3_4.dat'
-
+#ReadOnly 설정 추가
 
 class AssLayout(QWidget):
     def __init__(self):
