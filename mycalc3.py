@@ -135,6 +135,9 @@ class Calculator(QWidget):
         elif inputstr == keypad.functionList[3]:
             func_result = calcfunction.roman(int(self.display.text()))
             self.display.setText(func_result)
+        elif inputstr == keypad.functionList[4]:
+            func_result = calcfunction.romantodec(self.display.text())
+            self.display.setText(str(func_result))
         else:
             text_display = str(self.display.text()) + inputstr
             self.display.setText(text_display)
