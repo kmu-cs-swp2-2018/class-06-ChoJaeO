@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtWidgets import QLineEdit, QToolButton
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtWidgets import QLayout, QGridLayout
+import sys
 import keypad
 import calcfunction
 
@@ -103,11 +104,11 @@ class Calculator(QWidget):
         if self.display.text() == 'Error':
             self.display.setText('')
         if inputstr == '=':
-         #   try:
-            result = str(eval(self.display.text()))
-            self.display.setText(result)
-         #   except:
-         #       self.display.setText("Error")
+            try:
+                result = str(eval(self.display.text()))
+                self.display.setText(result)
+            except:
+                self.display.setText("Error")
         elif inputstr == 'C':
             self.display.clear()
         elif inputstr == keypad.constantList[0]:
@@ -139,8 +140,6 @@ class Calculator(QWidget):
             self.display.setText(text_display)
 
 if __name__ == '__main__':
-
-    import sys
 
     app = QApplication(sys.argv)
     calc = Calculator()
