@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QAp
 import pickle
 
 dbfilename = 'test3_4.dat'
-#ReadOnly 설정 추가
 
 class AssLayout(QWidget):
     def __init__(self):
@@ -11,7 +10,6 @@ class AssLayout(QWidget):
         self.initUI()
 
     def initUI(self):
-        #UI 설정 -- Dictionary로 간단하게 해결해보기.....
         self.NameLabel = QLabel('Name : ', self)
         self.NameText = QLineEdit()
         self.AgeLabel = QLabel('Age:',self)
@@ -29,11 +27,12 @@ class AssLayout(QWidget):
         ShowButton = QPushButton("Show",self)
         self.ResultLabel = QLabel("Result")
         self.ResultText = QTextEdit()
+        self.ResultMsg = QLabel()
         self.KeyBox.addItems(['Name','Age','Score'])
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QGridLayout.SetFixedSize)
+        self.ResultText.setReadOnly(True)
 
-        # 다른 레이아웃 사용
         mainLayout.addWidget(self.NameLabel, 0, 0, 1, 1)
         mainLayout.addWidget(self.NameText, 0, 1, 1, 1)
         mainLayout.addWidget(self.AgeLabel, 0, 2, 1, 1)
@@ -45,16 +44,18 @@ class AssLayout(QWidget):
         mainLayout.addWidget(self.KeyLabel, 1, 6, 1, 1)
         mainLayout.addWidget(self.KeyBox, 1, 7, 1, 1)
 
-        # 버튼 배치 -- 인적사항과 분리해서 레이아웃 사용
-        mainLayout.addWidget(AddButton,2,3,1,1)
-        mainLayout.addWidget(DelButton,2,4,1,1)
-        mainLayout.addWidget(FindButton,2,5,1,1)
-        mainLayout.addWidget(IncButton,2,6,1,1)
-        mainLayout.addWidget(ShowButton,2,7,1,1)
+        ButtonLayout = QGridLayout()
+        ButtonLayout.addWidget(AddButton,0,0,1,1)
+        ButtonLayout.addWidget(DelButton,0,1,1,1)
+        ButtonLayout.addWidget(FindButton,0,2,1,1)
+        ButtonLayout.addWidget(IncButton,0,3,1,1)
+        ButtonLayout.addWidget(ShowButton,0,4,1,1)
 
-        # 결과 화면
+        mainLayout.addLayout(ButtonLayout,2,0,1,8)
+
         ResultLayout = QVBoxLayout()
         ResultLayout.addWidget(self.ResultLabel)
+        ResultLayout.addWidget(self.ResultMsg)
         ResultLayout.addWidget(self.ResultText)
 
 
@@ -73,10 +74,7 @@ class AssLayout(QWidget):
     def buttonClicked(self):
         button = self.sender()
         inputstr = button.text()
-        self.doScoreDB(scoredb,inputstr)
-
-    def doScoreDB(self,scdb,inputstr):
-
+        scdb = scoredb
         name = self.NameText.text()
         age = self.AgeText.text()
         score = self.ScoreText.text()
@@ -85,59 +83,50 @@ class AssLayout(QWidget):
 
         if inputstr == 'Add':
             try:
-                if name != "" or age != "" or score != "" :
-                    record = {'Name': name, 'Age': age, 'Score': score}
-                    scdb += [record]
-                    self.ResultText.setText("Add Complete")
-                else:
-                    self.ResultText.setText("Fill the Name, Age, Score")
+                record = {'Name': name, 'Age': int(age), 'Score': int(score)}
+                scdb += [record]
+                self.ResultMsg.setText("Add Complete")
             except IndexError:
-                self.ResultText.setText("Error : You should input three parses")
+                self.ResultMsg.setText("Error : You should input three parses")
             except ValueError:
-                self.ResultText.setText("Error : Check the Value")
+                self.ResultMsg.setText("Error : Check the Value")
             except:
-                self.ResultText.setText("Unknown Error")
+                self.ResultMsg.setText("Unknown Error")
         elif inputstr == 'Find':
             find_person = []
             try:
-                if name != "":
-
-                    for p in scdb:
-                        if p['Name'] == name:
-                            find_person += [p]
-                        self.ResultText.setText(len(find_person))
-                    if len(find_person) == 0:
-                        self.ResultText.setText(name + " is not in this list")
-                    else:
-                        self.showScoreDB(find_person, self.KeyBox.currentText())
+                for p in scdb:
+                    if p['Name'] == name:
+                        find_person += [p]
+                    self.ResultText.setText(len(find_person))
+                if len(find_person) == 0:
+                    self.ResultMsg.setText(name + " is not in this list")
                 else:
-                    self.ResultText.setText("Fill the Name")
+                    self.showScoreDB(find_person, self.KeyBox.currentText())
+
             except IndexError:
-                self.ResultText.setText("Error : You should input one parse")
+                self.ResultMsg.setText("Error : You should input one parse")
             except ValueError:
-                self.ResultText.setText("Error : Check the Value")
+                self.ResultMsg.setText("Error : Check the Value")
             except:
-                self.ResultText.setText("Unknown Error")
+                self.ResultMsg.setText("Unknown Error")
         elif inputstr == 'Inc':
             inc_num = 0
             try:
-                if name != "" or amount != "":
-                    for p in scdb:
-                        if p['Name'] == name:
-                            p['Score'] = str(int(p['Score']) + int(amount))
-                            inc_num += 1
-                    if inc_num == 0:
-                        self.ResultText.setText(str(name) + " is not in this list")
-                    else:
-                        self.ResultText.setText("Increase " + str(inc_num) + "student(s) score")
+                for p in scdb:
+                    if p['Name'] == name:
+                        p['Score'] = str(int(p['Score']) + int(amount))
+                        inc_num += 1
+                if inc_num == 0:
+                    self.ResultMsg.setText(str(name) + " is not in this list")
                 else:
-                    self.ResultText.setText("Fill the Name and Amount")
+                    self.ResultMsg.setText("Increase " + str(inc_num) + "student(s) score")
             except IndexError:
-                self.ResultText.setText("Error : You should input two parses")
+                self.ResultMsg.setText("Error : You should input two parses")
             except ValueError:
-                self.ResultText.setText("Error : Check the Value")
+                self.ResultMsg.setText("Error : Check the Value")
             except:
-                self.ResultText.setText("Unknown Error")
+                self.ResultMsg.setText("Unknown Error")
         elif inputstr == 'Del':
             try:
                 if name != "":
@@ -147,29 +136,29 @@ class AssLayout(QWidget):
                             scdb.remove(p)
                             del_num += 1
                     if del_num == 0:
-                        self.ResultText.setText(str(name) + " is not in this list")
+                        self.ResultMsg.setText(str(name) + " is not in this list")
                     else:
-                        self.ResultText.setText("Delete " + str(del_num) + "student(s)")
+                        self.ResultMsg.setText("Delete " + str(del_num) + "student(s)")
                 else:
-                    self.ResultText.setText("Fill the Name")
+                    self.ResultMsg.setText("Fill the Name")
             except IndexError:
-                self.ResultText.setText("Error : You should input two parse")
+                self.ResultMsg.setText("Error : You should input two parse")
             except ValueError:
-                self.ResultText.setText("Error : Check the Value")
+                self.ResultMsg.setText("Error : Check the Value")
             except:
-                self.ResultText.setText("Unknown Error")
+                self.ResultMsg.setText("Unknown Error")
         elif inputstr == 'Show':
             try:
                sortKey = self.KeyBox.currentText()
                self.showScoreDB(scdb, sortKey)
             except IndexError:
-                self.ResultText.setText("Error : You don't need more parse")
+                self.ResultMsg.setText("Error : You don't need more parse")
             except ValueError:
-                self.ResultText.setText("Error : Check the Value")
+                self.ResultMsg.setText("Error : Check the Value")
             except:
-                self.ResultText.setText("Unknown Error")
+                self.ResultMsg.setText("Unknown Error")
         else:
-            self.ResultText.setText("Invalid command: " + inputstr)
+            self.ResultMsg.setText("Invalid command: " + inputstr)
 
     def showScoreDB(self, scdb, keyname):
         result_show = ""
