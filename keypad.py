@@ -17,4 +17,5 @@ functionList = [
     '-> binary',
     'binary -> dec',
     '-> roman',
+    'roman -> dec',
 ]

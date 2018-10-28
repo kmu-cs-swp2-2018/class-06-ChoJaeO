@@ -1,6 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtWidgets import QLineEdit, QToolButton
+from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtWidgets import QLayout, QGridLayout
 import sys
@@ -31,6 +32,12 @@ class Calculator(QWidget):
         self.display.setReadOnly(True)
         self.display.setAlignment(Qt.AlignRight)
         self.display.setMaxLength(15)
+
+        backspace = Button("지우기")
+        backspace.clicked.connect(self.buttonClicked)
+
+        #Error Label
+        self.errorlabel = QLabel()
 
         # Digit Buttons
         self.digitButton = [x for x in range(0, 10)]
@@ -69,7 +76,9 @@ class Calculator(QWidget):
         # Layout
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QLayout.SetFixedSize)
-        mainLayout.addWidget(self.display, 0, 0, 1, 2)
+        mainLayout.addWidget(self.display, 0, 0, 1, 1)
+        mainLayout.addWidget(backspace,0,1,1,1)
+        mainLayout.addWidget(self.errorlabel,1,0)
 
         numLayout = QGridLayout()
         cnt = 0
@@ -85,10 +94,10 @@ class Calculator(QWidget):
         numLayout.addWidget(self.decButton, 3, 1)
         numLayout.addWidget(self.eqButton, 3, 2)
 
-        mainLayout.addLayout(numLayout, 1, 0)
-        mainLayout.addLayout(opLayout, 1, 1)
-        mainLayout.addLayout(constLayout, 2, 0)
-        mainLayout.addLayout(funcLayout,2,1)
+        mainLayout.addLayout(numLayout, 2, 0)
+        mainLayout.addLayout(opLayout, 2, 1)
+        mainLayout.addLayout(constLayout, 3, 0)
+        mainLayout.addLayout(funcLayout,3,1)
 
         self.setLayout(mainLayout)
         self.setWindowTitle("My Calculator")
@@ -108,7 +117,11 @@ class Calculator(QWidget):
                 result = str(eval(self.display.text()))
                 self.display.setText(result)
             except:
-                self.display.setText("Error")
+                self.errorlabel.setText("Error")
+        elif inputstr == "지우기":
+            text_display = str(self.display.text())
+            text_display = text_display[0:len(text_display)-1]
+            self.display.setText(text_display)
         elif inputstr == 'C':
             self.display.clear()
         elif inputstr == keypad.constantList[0]:
