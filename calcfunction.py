@@ -5,10 +5,19 @@ def factorial_function(num):
     return str(result)
 
 def binary_function(num):
-    return str(bin(num))
+    bin_num = str(bin(num))
+    bin_num = bin_num[2:]
+    return bin_num
 
 def dec_function(num):
-    return str(int(num,2))
+    try:
+        dec_num = "0b" + str(num)
+        dec_num = str(int(dec_num,2))
+        return dec_num
+    except ValueError:
+        return "이진법을 입력하세요"
+    except:
+        return "Error"
 
 def roman(num):
     try:
@@ -40,22 +49,30 @@ def romantodec(num):
     except:
         return 'Error!'
     romans = [
-        (1, 'I'), (4, 'IV'), (5, 'V'), (9, 'IX'), (10, 'X'),
-        (40, 'XL'), (50, 'L'), (90, 'XC'), (100, 'C'),
-        (400, 'CD'), (500, 'D'), (900, 'CM'), (1000, 'M'),
+        (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),
+        (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),
+        (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'),
+        (1, 'I')
     ]
 
     dec_num = 0
     cnt  = 1
     for value, letters in romans:
+        while n.find(letters) == 0:
+            dec_num += value
+            n = n[len(letters):]
+        """
         while cnt < len(num)+1:
+
+            
+
             if len(letters) == 1:
                 if num[-cnt] == letters:
                     dec_num += value
                     cnt += 1
                 else:
                     break
-            elif len(letters) == 2 and len(num)-cnt >= 2:
+            elif len(letters) == 2 and len(num)-cnt >= 1:
                 if num[-cnt] + num[-(cnt+1)] == letters:
                     dec_num += value
                     cnt += 1
@@ -63,9 +80,9 @@ def romantodec(num):
                     break
             else:
                 break
-
+        """
     return dec_num
 
 
 if __name__ == '__main__':
-    print(romantodec("CXXIII"))
+    print(romantodec("XLV"))
