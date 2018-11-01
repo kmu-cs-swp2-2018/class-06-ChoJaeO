@@ -110,12 +110,15 @@ class Calculator(QWidget):
     def buttonClicked(self):
         button = self.sender()
         inputstr = button.text()
+        self.errorlabel.setText("")
         if self.display.text() == 'Error':
             self.display.setText('')
         if inputstr == '=':
             try:
                 result = str(eval(self.display.text()))
                 self.display.setText(result)
+            except ZeroDivisionError:
+                self.errorlabel.setText("0으로 해당숫자를 나눌 수 없습니다.")
             except:
                 self.errorlabel.setText("Error")
         elif inputstr == "지우기":
@@ -150,7 +153,10 @@ class Calculator(QWidget):
             self.display.setText(func_result)
         elif inputstr == keypad.functionList[4]:
             func_result = calcfunction.romantodec(self.display.text())
-            self.display.setText(str(func_result))
+            if func_result == "Error":
+                self.errorlabel.setText("로마 숫자를 입력해야 합니다.")
+            else:
+                self.display.setText(str(func_result))
         else:
             text_display = str(self.display.text()) + inputstr
             self.display.setText(text_display)

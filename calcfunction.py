@@ -15,7 +15,7 @@ def dec_function(num):
         dec_num = str(int(dec_num,2))
         return dec_num
     except ValueError:
-        return "이진법을 입력하세요"
+        return "이진수를 입력하세요"
     except:
         return "Error"
 
@@ -56,11 +56,14 @@ def romantodec(num):
     ]
 
     dec_num = 0
-    cnt  = 1
+    cnt = 0
     for value, letters in romans:
         while n.find(letters) == 0:
             dec_num += value
             n = n[len(letters):]
+            cnt += 1
+    if cnt == 0:
+        return "Error"
         """
         while cnt < len(num)+1:
 
@@ -81,7 +84,8 @@ def romantodec(num):
             else:
                 break
         """
-    return dec_num
+    else:
+        return dec_num
 
 
 if __name__ == '__main__':
