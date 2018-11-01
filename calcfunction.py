@@ -55,6 +55,9 @@ def romantodec(num):
         (1, 'I')
     ]
 
+    ##### 알파벳이 아닌 경우
+    #####if n.isalpha() ==
+
     dec_num = 0
     cnt = 0
     for value, letters in romans:
@@ -64,26 +67,6 @@ def romantodec(num):
             cnt += 1
     if cnt == 0:
         return "Error"
-        """
-        while cnt < len(num)+1:
-
-            
-
-            if len(letters) == 1:
-                if num[-cnt] == letters:
-                    dec_num += value
-                    cnt += 1
-                else:
-                    break
-            elif len(letters) == 2 and len(num)-cnt >= 1:
-                if num[-cnt] + num[-(cnt+1)] == letters:
-                    dec_num += value
-                    cnt += 1
-                else:
-                    break
-            else:
-                break
-        """
     else:
         return dec_num
 
