@@ -5,8 +5,8 @@ def factorial_function(num):
     return str(result)
 
 def binary_function(num):
-    bin_num = str(bin(num))
-    bin_num = bin_num[2:]
+    prefix_index = 2
+    bin_num = str(bin(num))[prefix_index:]
     return bin_num
 
 def dec_function(num):
@@ -54,9 +54,6 @@ def romantodec(num):
         (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'),
         (1, 'I')
     ]
-
-    ##### 알파벳이 아닌 경우
-    #####if n.isalpha() ==
 
     dec_num = 0
     cnt = 0
