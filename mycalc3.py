@@ -54,7 +54,7 @@ class Calculator(QWidget):
 
         self.buttonGroups = {
             'op' : {'buttons' : keypad.operatorList, 'layout' : opLayout, 'columns' : 2},
-            'constants' : {'buttons' : keypad.constantList, 'layout' : constLayout, 'columns' : 1},
+            'constants' : {'buttons' : keypad.constantList[0], 'layout' : constLayout, 'columns' : 1},
             'functions' : {'buttons' : keypad.functionList, 'layout' : funcLayout, 'columns' : 1},
         }
 
@@ -127,17 +127,9 @@ class Calculator(QWidget):
             self.display.setText(text_display)
         elif inputstr == 'C':
             self.display.clear()
-        elif inputstr == keypad.constantList[0]:
-            text_display = str(self.display.text()) + '3.14'
-            self.display.setText(text_display)
-        elif inputstr == keypad.constantList[1]:
-            text_display = str(self.display.text()) + '340'
-            self.display.setText(text_display)
-        elif inputstr == keypad.constantList[2]:
-            text_display = str(self.display.text()) + '3E+8'
-            self.display.setText(text_display)
-        elif inputstr == keypad.constantList[3]:
-            text_display = str(self.display.text()) + '1.5E+8'
+        elif inputstr in keypad.constantList[0]:
+            index_key = keypad.constantList[0].index(inputstr)
+            text_display = str(self.display.text()) + keypad.constantList[1][index_key]
             self.display.setText(text_display)
         elif inputstr == keypad.functionList[0]:
             func_result = calcfunction.factorial_function(int(self.display.text()))
