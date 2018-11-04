@@ -80,12 +80,15 @@ class AssLayout(QWidget):
         score = self.ScoreText.text()
         amount = self.AmountText.text()
         print( name, age, score)
-
+        self.ResultText.setText("")
+        self.ResultMsg.setText("")
         if inputstr == 'Add':
             try:
                 record = {'Name': name, 'Age': int(age), 'Score': int(score)}
                 scdb += [record]
                 self.ResultMsg.setText("Add Complete")
+                sortKey = self.KeyBox.currentText()
+                self.showScoreDB(scdb, sortKey)
             except IndexError:
                 self.ResultMsg.setText("Error : You should input three parses")
             except ValueError:
@@ -120,7 +123,9 @@ class AssLayout(QWidget):
                 if inc_num == 0:
                     self.ResultMsg.setText(str(name) + " is not in this list")
                 else:
-                    self.ResultMsg.setText("Increase " + str(inc_num) + "student(s) score")
+                    self.ResultMsg.setText("Increase " + str(inc_num) + "student(s)("+str(name)+") score")
+                sortKey = self.KeyBox.currentText()
+                self.showScoreDB(scdb, sortKey)
             except IndexError:
                 self.ResultMsg.setText("Error : You should input two parses")
             except ValueError:
@@ -129,18 +134,18 @@ class AssLayout(QWidget):
                 self.ResultMsg.setText("Unknown Error")
         elif inputstr == 'Del':
             try:
-                if name != "":
-                    del_num = 0
-                    for p in scdb:
-                        if p['Name'] == name:
-                            scdb.remove(p)
-                            del_num += 1
-                    if del_num == 0:
-                        self.ResultMsg.setText(str(name) + " is not in this list")
-                    else:
-                        self.ResultMsg.setText("Delete " + str(del_num) + "student(s)")
+                del_num = 0
+                for p in scdb:
+                    if p['Name'] == name:
+                        scdb.remove(p)
+                        del_num += 1
+                if del_num == 0:
+                    self.ResultMsg.setText(str(name) + " is not in this list")
                 else:
-                    self.ResultMsg.setText("Fill the Name")
+                    self.ResultMsg.setText("Delete " + str(del_num) + "student(s)")
+                sortKey = self.KeyBox.currentText()
+                self.showScoreDB(scdb, sortKey)
+
             except IndexError:
                 self.ResultMsg.setText("Error : You should input two parse")
             except ValueError:
@@ -160,11 +165,16 @@ class AssLayout(QWidget):
         else:
             self.ResultMsg.setText("Invalid command: " + inputstr)
 
+        self.NameText.setText("")
+        self.AgeText.setText("")
+        self.ScoreText.setText("")
+        self.AmountText.setText("")
+
     def showScoreDB(self, scdb, keyname):
         result_show = ""
         for p in sorted(scdb, key=lambda person: person[keyname]):
             for attr in sorted(p):
-                result_show += attr + " = " + p[attr] + " "
+                result_show += str(attr) + " = " + str(p[attr]) + " \t"
             result_show += " \n"
         self.ResultText.setText(result_show)
 
