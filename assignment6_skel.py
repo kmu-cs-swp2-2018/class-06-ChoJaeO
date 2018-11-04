@@ -75,95 +75,97 @@ class AssLayout(QWidget):
         button = self.sender()
         inputstr = button.text()
         scdb = scoredb
-        name = self.NameText.text()
-        age = self.AgeText.text()
-        score = self.ScoreText.text()
-        amount = self.AmountText.text()
-        print( name, age, score)
-        self.ResultText.setText("")
-        self.ResultMsg.setText("")
-        if inputstr == 'Add':
-            try:
-                record = {'Name': name, 'Age': int(age), 'Score': int(score)}
-                scdb += [record]
-                self.ResultMsg.setText("Add Complete")
-                sortKey = self.KeyBox.currentText()
-                self.showScoreDB(scdb, sortKey)
-            except IndexError:
-                self.ResultMsg.setText("Error : You should input three parses")
-            except ValueError:
-                self.ResultMsg.setText("Error : Check the Value")
-            except:
-                self.ResultMsg.setText("Unknown Error")
-        elif inputstr == 'Find':
-            find_person = []
-            try:
-                for p in scdb:
-                    if p['Name'] == name:
-                        find_person += [p]
-                    self.ResultText.setText(len(find_person))
-                if len(find_person) == 0:
-                    self.ResultMsg.setText(name + " is not in this list")
-                else:
-                    self.showScoreDB(find_person, self.KeyBox.currentText())
+        try:
+            name = self.NameText.text()
+            age = int(self.AgeText.text())
+            score = int(self.ScoreText.text())
+            amount = int(self.AmountText.text())
+            self.ResultText.setText("")
+            self.ResultMsg.setText("")
+            if inputstr == 'Add':
+                try:
+                    record = {'Name': name, 'Age': age, 'Score': score}
+                    scdb += [record]
+                    self.ResultMsg.setText("Add Complete")
+                    sortKey = self.KeyBox.currentText()
+                    self.showScoreDB(scdb, sortKey)
+                except IndexError:
+                    self.ResultMsg.setText("Error : You should input three parses")
+                except ValueError:
+                    self.ResultMsg.setText("Error : Check the Value")
+                except:
+                    self.ResultMsg.setText("Unknown Error")
+            elif inputstr == 'Find':
+                find_person = []
+                try:
+                    for p in scdb:
+                        if p['Name'] == name:
+                            find_person += [p]
+                        self.ResultText.setText(len(find_person))
+                    if len(find_person) == 0:
+                        self.ResultMsg.setText(name + " is not in this list")
+                    else:
+                        self.showScoreDB(find_person, self.KeyBox.currentText())
 
-            except IndexError:
-                self.ResultMsg.setText("Error : You should input one parse")
-            except ValueError:
-                self.ResultMsg.setText("Error : Check the Value")
-            except:
-                self.ResultMsg.setText("Unknown Error")
-        elif inputstr == 'Inc':
-            inc_num = 0
-            try:
-                for p in scdb:
-                    if p['Name'] == name:
-                        p['Score'] = str(int(p['Score']) + int(amount))
-                        inc_num += 1
-                if inc_num == 0:
-                    self.ResultMsg.setText(str(name) + " is not in this list")
-                else:
-                    self.ResultMsg.setText("Increase " + str(inc_num) + "student(s)("+str(name)+") score")
-                sortKey = self.KeyBox.currentText()
-                self.showScoreDB(scdb, sortKey)
-            except IndexError:
-                self.ResultMsg.setText("Error : You should input two parses")
-            except ValueError:
-                self.ResultMsg.setText("Error : Check the Value")
-            except:
-                self.ResultMsg.setText("Unknown Error")
-        elif inputstr == 'Del':
-            try:
-                del_num = 0
-                for p in scdb:
-                    if p['Name'] == name:
-                        scdb.remove(p)
-                        del_num += 1
-                if del_num == 0:
-                    self.ResultMsg.setText(str(name) + " is not in this list")
-                else:
-                    self.ResultMsg.setText("Delete " + str(del_num) + "student(s)")
-                sortKey = self.KeyBox.currentText()
-                self.showScoreDB(scdb, sortKey)
+                except IndexError:
+                    self.ResultMsg.setText("Error : You should input one parse")
+                except ValueError:
+                    self.ResultMsg.setText("Error : Check the Value")
+                except:
+                    self.ResultMsg.setText("Unknown Error")
+            elif inputstr == 'Inc':
+                inc_num = 0
+                try:
+                    for p in scdb:
+                        if p['Name'] == name:
+                            p['Score'] = str(int(p['Score']) + int(amount))
+                            inc_num += 1
+                    if inc_num == 0:
+                        self.ResultMsg.setText(str(name) + " is not in this list")
+                    else:
+                        self.ResultMsg.setText("Increase " + str(inc_num) + "student(s)("+str(name)+") score")
+                    sortKey = self.KeyBox.currentText()
+                    self.showScoreDB(scdb, sortKey)
+                except IndexError:
+                    self.ResultMsg.setText("Error : You should input two parses")
+                except ValueError:
+                    self.ResultMsg.setText("Error : Check the Value")
+                except:
+                    self.ResultMsg.setText("Unknown Error")
+            elif inputstr == 'Del':
+                try:
+                    del_num = 0
+                    for p in scdb:
+                        if p['Name'] == name:
+                            scdb.remove(p)
+                            del_num += 1
+                    if del_num == 0:
+                        self.ResultMsg.setText(str(name) + " is not in this list")
+                    else:
+                        self.ResultMsg.setText("Delete " + str(del_num) + "student(s)")
+                    sortKey = self.KeyBox.currentText()
+                    self.showScoreDB(scdb, sortKey)
 
-            except IndexError:
-                self.ResultMsg.setText("Error : You should input two parse")
-            except ValueError:
-                self.ResultMsg.setText("Error : Check the Value")
-            except:
-                self.ResultMsg.setText("Unknown Error")
-        elif inputstr == 'Show':
-            try:
-               sortKey = self.KeyBox.currentText()
-               self.showScoreDB(scdb, sortKey)
-            except IndexError:
-                self.ResultMsg.setText("Error : You don't need more parse")
-            except ValueError:
-                self.ResultMsg.setText("Error : Check the Value")
-            except:
-                self.ResultMsg.setText("Unknown Error")
-        else:
-            self.ResultMsg.setText("Invalid command: " + inputstr)
+                except IndexError:
+                    self.ResultMsg.setText("Error : You should input two parse")
+                except ValueError:
+                    self.ResultMsg.setText("Error : Check the Value")
+                except:
+                    self.ResultMsg.setText("Unknown Error")
+            elif inputstr == 'Show':
+                try:
+                   sortKey = self.KeyBox.currentText()
+                   self.showScoreDB(scdb, sortKey)
+                except IndexError:
+                    self.ResultMsg.setText("Error : You don't need more parse")
+                except ValueError:
+                    self.ResultMsg.setText("Error : Check the Value")
+                except:
+                    self.ResultMsg.setText("Unknown Error")
+            else:
+                self.ResultMsg.setText("Invalid command: " + inputstr)
+        except ValueError:
+            self.ResultMsg.setText("input the parses")
 
         self.NameText.setText("")
         self.AgeText.setText("")
