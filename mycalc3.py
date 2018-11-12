@@ -132,16 +132,16 @@ class Calculator(QWidget):
             text_display = str(self.display.text()) + keypad.constantList[1][index_key]
             self.display.setText(text_display)
         elif inputstr == keypad.functionList[0]:
-            func_result = calcfunction.factorial_function(int(self.display.text()))
+            func_result = calcfunction.factorial_function(self.display.text())
             self.display.setText(func_result)
         elif inputstr == keypad.functionList[1]:
-            func_result = calcfunction.binary_function(int(self.display.text()))
+            func_result = calcfunction.binary_function(self.display.text())
             self.display.setText(func_result)
         elif inputstr == keypad.functionList[2]:
-            func_result = calcfunction.dec_function(int(self.display.text()))
+            func_result = calcfunction.dec_function(self.display.text())
             self.display.setText(func_result)
         elif inputstr == keypad.functionList[3]:
-            func_result = calcfunction.roman(int(self.display.text()))
+            func_result = calcfunction.roman(self.display.text())
             self.display.setText(func_result)
         elif inputstr == keypad.functionList[4]:
             func_result = calcfunction.romantodec(self.display.text())

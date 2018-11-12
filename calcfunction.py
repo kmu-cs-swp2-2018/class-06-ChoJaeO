@@ -6,12 +6,20 @@ romans = [
 ]
 
 def factorial_function(num):
+    try:
+        num_fac = int(num)
+    except:
+        return "Error"
     result = 1
-    for i in range(1, num + 1):
+    for i in range(1, num_fac + 1):
         result *= i
     return str(result)
 
 def binary_function(num):
+    try:
+        num_bin = int(num)
+    except:
+        return "Error"
     prefix_index = 2
     bin_num = str(bin(num))[prefix_index:]
     return bin_num
@@ -47,19 +55,21 @@ def romantodec(num):
     try:
         n = str(num)
     except:
-        return 'Error!'
+        return 'Error'
 
     dec_num = 0
-    cnt = 0
-    for value, letters in romans:
-        while n.find(letters) == 0:
-            dec_num += value
-            n = n[len(letters):]
-            cnt += 1
-    if cnt == 0:
+    try:
+        for value, letters in romans:
+            while n.find(letters) == 0:
+                dec_num += value
+                n = n[len(letters):]
+
+        if dec_num == 0:
+            return "Error"
+        else:
+            return dec_num
+    except:
         return "Error"
-    else:
-        return dec_num
 
 
 if __name__ == '__main__':
