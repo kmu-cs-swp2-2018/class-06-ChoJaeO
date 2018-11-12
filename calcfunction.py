@@ -1,3 +1,10 @@
+romans = [
+    (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),
+    (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),
+    (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'),
+    (1, 'I')
+]
+
 def factorial_function(num):
     result = 1
     for i in range(1, num + 1):
@@ -28,13 +35,6 @@ def roman(num):
     if n >= 4000:
         return 'Error!'
 
-    romans = [
-        (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),
-        (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),
-        (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'),
-        (1, 'I')
-    ]
-
     result = ''
     for value, letters in romans:
         while n >= value:
@@ -48,12 +48,6 @@ def romantodec(num):
         n = str(num)
     except:
         return 'Error!'
-    romans = [
-        (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),
-        (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),
-        (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'),
-        (1, 'I')
-    ]
 
     dec_num = 0
     cnt = 0
