@@ -19,15 +19,16 @@ class Guess:
                 self.guess_list[i] = 1
         print("Current : " , end ='')
         self.currentStatus = ""
+        if character not in self.answer:
+            self.numTries += 1
         for i in range(len(self.answer)):
             if self.guess_list[i] == 1:
-                self.currentStatus += self.answer[i]
-                print(self.answer[i], end ='')
+                self.currentStatus += self.answer[i] + " "
+                print(self.answer[i], end =' ')
             else:
-                self.currentStatus += "_"
-                print("_", end = '')
+                self.currentStatus += "_ "
+                print("_", end = ' ')
         print()
-        self.numTries += 1
         if 0 not in self.guess_list:
             return True
         else:
