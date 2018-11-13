@@ -30,7 +30,4 @@ class Guess:
                 self.currentStatus += "_ "
                 print("_", end = ' ')
         print()
-        if 0 not in self.guess_list:
-            return True
-        else:
-            return False
+        return 0 not in self.guess_list

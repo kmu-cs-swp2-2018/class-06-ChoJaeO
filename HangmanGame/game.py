@@ -11,12 +11,14 @@ def gameMain():
     #생명 갯수를 정해준다.
     hangman = Hangman()
     maxTries = hangman.getLife()
-
+    #print("Current : " + "_ "*len(word.readFromDB()))
+    print("Current : " + "_ " * len("core"))
     while guess.numTries < maxTries:
         display = hangman.get(maxTries - guess.numTries)
         print(display)
         guess.display()
         guessedChar = input("Select a letter : ")
+        guessedChar = guessedChar.lower()
         print("-------------------------------")
         if len(guessedChar) != 1:
             # 두개 이상의 알파벳을 입력했을 때
