@@ -9,7 +9,8 @@ class Guess:
             self.guess_list.append(0)
 
     def display(self):
-
+        print("Tries : " + str(self.numTries))
+        print("You already guessed " + self.guessedChars)
         pass
 
     def guess(self,character):

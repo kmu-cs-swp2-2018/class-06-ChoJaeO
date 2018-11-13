@@ -5,13 +5,12 @@ from word import Word
 def gameMain():
     #단어들을 받아온다.
     word = Word()
+    #guess = Guess(word.readFromDB())
     guess = Guess("core")
 
     #생명 갯수를 정해준다.
     hangman = Hangman()
     maxTries = hangman.getLife()
-
-    try_cnt = 0
 
     while guess.numTries < maxTries:
         display = hangman.get(maxTries - guess.numTries)
@@ -29,9 +28,6 @@ def gameMain():
             continue
         # guess.guess를 통해 최종 성공 여부를 반환
         finished = guess.guess(guessedChar)
-        try_cnt += 1
-        print("Tries : " + str(try_cnt))
-        print("You already guessed " + guess.guessedChars)
         if finished == True:
             break
 
