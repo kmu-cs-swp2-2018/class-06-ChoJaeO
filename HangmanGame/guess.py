@@ -14,6 +14,7 @@ class Guess:
         pass
 
     def guess(self,character):
+
         self.guessedChars += character
         if character not in self.answer:
             self.numTries += 1
@@ -30,4 +31,7 @@ class Guess:
                     self.currentStatus += "_ "
                     print("_", end = ' ')
             print()
-        return 0 not in self.guess_list
+        return self.guess_list
+
+    def getnumTries(self):
+        return self.numTries
