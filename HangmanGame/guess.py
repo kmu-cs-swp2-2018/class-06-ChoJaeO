@@ -35,3 +35,12 @@ class Guess:
 
     def getnumTries(self):
         return self.numTries
+
+    def getcurrentStatus(self):
+        return self.currentStatus
+
+    def getguessedChars(self):
+        return self.guessedChars
+
+    def getanswer(self):
+        return answer
