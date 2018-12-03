@@ -69,8 +69,8 @@ class HangmanGame(QWidget):
 
     def RestartGame(self):
         self.hangman = Hangman()
-        self.answer = "core"
-        self.guess = Guess("core") #self.word.readFromDB()
+        self.answer = self.word.readFromDB()
+        self.guess = Guess(self.word.readFromDB()) #self.word.readFromDB()
         self.currentWord.setText("_ " * len(self.answer))
         self.status_message.setText("Game Start!")
         self.hangmanWindow.setText(self.hangman.get(0))
@@ -87,14 +87,11 @@ class HangmanGame(QWidget):
         self.guessedChars.clear()
         self.charInput.clear()
 
-        #guess = Guess(word.readFromDB())
-
         #생명 갯수를 정해준다.
         hangman = Hangman()
         maxTries = hangman.getLife()
-        #print("Current : " + "_ "*len(word.readFromDB()))
-        print("Current : " + "_ " * len("core"))
-        self.currentWord.setText("_"*len("core"))
+        print("Current : " + "_ " * len(self.answer))
+        self.currentWord.setText("_"*len(self.answer))
 
         display = hangman.get(maxTries - self.guess.getnumTries())
         print(display)
@@ -104,19 +101,23 @@ class HangmanGame(QWidget):
         #guessedChar = input("Select a letter : ")
         guessedChar = guessedChar.lower()
         print("-------------------------------")
-        self.guessedChars.setText(self.guess.getguessedChars())
         if guessedChar in self.guess.getguessedChars():
             # 알파벳이 이미 추측한 것일 때
             self.status_message.setText("You already guessed " + guessedChar)
             print("You already guessed " + guessedChar)
             # guess.guess를 통해 최종 성공 여부를 반환
-        finished = self.guess.guess(guessedChar)
+        else:
+            finished = self.guess.guess(guessedChar)
+        self.guessedChars.setText(self.guess.getguessedChars())
         guessingword = ""
-        for i in range(len(finished)):
-            if finished[i]:
-                guessingword+=self.answer[i]
-            else:
-                guessingword+="_ "
+        try:
+            for i in range(len(finished)):
+                if finished[i]:
+                    guessingword+=self.answer[i]
+                else:
+                    guessingword+="_ "
+        except UnboundLocalError:
+            pass
         self.currentWord.setText(guessingword)
         if maxTries > self.guess.getnumTries() and 0 not in finished:
             print("Success")

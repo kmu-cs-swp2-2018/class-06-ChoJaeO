@@ -30,7 +30,9 @@ class Guess:
                 else:
                     self.currentStatus += "_ "
                     print("_", end = ' ')
+                print(self.guess_list)
             print()
+            print(self.guess_list)
         return self.guess_list
 
     def getnumTries(self):
@@ -43,4 +45,4 @@ class Guess:
         return self.guessedChars
 
     def getanswer(self):
-        return answer
+        return self.answer

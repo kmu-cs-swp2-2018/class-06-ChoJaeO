@@ -68,42 +68,54 @@ class HangmanGame(QWidget):
     def gameMain(self):
         #단어들을 받아온다.
         word = Word()
-        #guess = Guess(word.readFromDB())
-        guess = Guess("core")
+        answer = "core"
+        guess = Guess(word.readFromDB())
 
         #생명 갯수를 정해준다.
         hangman = Hangman()
         maxTries = hangman.getLife()
-        #print("Current : " + "_ "*len(word.readFromDB()))
+        print("Current : " + "_ "*len(word.readFromDB()))
         print("Current : " + "_ " * len("core"))
-        while guess.numTries < maxTries:
+        self.currentWord.setText("_"*len("core"))
+        while guess.getnumTries() < maxTries:
             display = hangman.get(maxTries - guess.numTries)
             print(display)
+            self.hangmanWindow.setText(display)
             guess.display()
-            guessedChar = input("Select a letter : ")
+            guessedChar = str(self.charInput.text())
+            #guessedChar = input("Select a letter : ")
             guessedChar = guessedChar.lower()
             print("-------------------------------")
             if len(guessedChar) != 1:
                 # 두개 이상의 알파벳을 입력했을 때
+                self.status_message.setText("One character at a time!")
                 print("One character at a time!")
                 continue
             if guessedChar in guess.guessedChars:
                 # 알파벳이 이미 추측한 것일 때
+                self.status_message.setText("You already guessed " + guessedChar)
                 print("You already guessed " + guessedChar)
                 continue
             # guess.guess를 통해 최종 성공 여부를 반환
             finished = guess.guess(guessedChar)
-            if finished == True:
+            guessingword = ""
+            for i in range(len(finished)):
+                if finished[i]:
+                    guessingword+=answer[i]
+                else:
+                    guessingword+="_"
+            if 0 not in finished:
                 break
 
         print("-------------------------------")
         if maxTries > guess.numTries:
             print("Success")
-
+            self.status_message.setText("Success")
         else:
             # 루프가 다 돌고 완전히 실패했을 경우
             print(hangman.get(0))
             print("Word is "+guess.answer)
+            self.status_message.setText("Word is "+guess.answer)
             print("Guess : " + guess.currentStatus)
             print("Fail")
     def RestartGame(self):
