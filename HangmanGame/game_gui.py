@@ -111,12 +111,7 @@ class HangmanGame(QWidget):
             print("You already guessed " + guessedChar)
             # guess.guess를 통해 최종 성공 여부를 반환
         finished = self.guess.guess(guessedChar)
-        guessingword = ""
-        for i in range(len(finished)):
-            if finished[i]:
-                guessingword+=self.answer[i]
-            else:
-                guessingword+="_ "
+        guessingword = self.answer[i] if self.guess_list[i] == 1 else "_"
         self.currentWord.setText(guessingword)
         if maxTries > self.guess.getnumTries() and 0 not in finished:
             print("Success")
