@@ -2,6 +2,7 @@ from hangman import Hangman
 from guess import Guess
 from word import Word
 
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication, QWidget, QLayout, QGridLayout, QTextEdit, QLineEdit, QToolButton)
 import sys
 
@@ -9,11 +10,12 @@ class HangmanGame(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.word = Word()
+        min_length = 5
+        self.word = Word(min_length)
 
         self.hangmanWindow = QTextEdit()
         self.hangmanWindow.setReadOnly(True)
-        #self.hangmanWindow.setAlignment(Qt.AlignLeft)
+        self.hangmanWindow.setAlignment(Qt.AlignLeft)
 
         font = self.hangmanWindow.font()
         font.setFamily('Courier New')
@@ -33,13 +35,13 @@ class HangmanGame(QWidget):
 
         self.guessedChars = QLineEdit()
         self.guessedChars.setReadOnly(True)
-        #self.guessedChars.setAlignment(Qt.AlignLeft)
+        self.guessedChars.setAlignment(Qt.AlignLeft)
         self.guessedChars.setMaxLength(52)      # 알파벳 갯수가 26개이므로
         statusWindow.addWidget(self.guessedChars, 1, 0, 1, 2)
 
         self.status_message = QLineEdit()
         self.status_message.setReadOnly(True)
-        #self.status_message.setAlignment(Qt.AlignLeft)
+        self.status_message.setAlignment(Qt.AlignLeft)
         self.status_message.setMaxLength(52)
         statusWindow.addWidget(self.status_message, 2, 0, 1, 2)
 
@@ -70,7 +72,6 @@ class HangmanGame(QWidget):
     def RestartGame(self):
         self.hangman = Hangman()
         self.answer = self.word.readFromDB()
-        self.guess = Guess(self.word.readFromDB()) #self.word.readFromDB()
         self.currentWord.setText("_ " * len(self.answer))
         self.status_message.setText("Game Start!")
         self.hangmanWindow.setText(self.hangman.get(0))
@@ -79,6 +80,10 @@ class HangmanGame(QWidget):
         self.guess = Guess(self.answer)
         self.guessButton.setEnabled(True)
         self.newgameButton.setEnabled(False)
+        if len(self.answer) >= 10:
+            font = self.currentWord.font()
+            font.setPointSize(font.pointSize()-4)
+            self.currentWord.setFont(font)
 
     def gameMain(self):
 
@@ -87,13 +92,11 @@ class HangmanGame(QWidget):
         self.guessedChars.clear()
         self.charInput.clear()
 
-        guess = Guess(word.readFromDB())
-
         #생명 갯수를 정해준다.
         hangman = Hangman()
         maxTries = hangman.getLife()
-        print("Current : " + "_ "*len(guess))
-        self.currentWord.setText("_"*len(guess))
+        print("Current : " + "_ " * len(self.answer))
+        self.currentWord.setText("_"*len(self.answer))
 
         display = hangman.get(maxTries - self.guess.getnumTries())
         print(display)
@@ -109,21 +112,18 @@ class HangmanGame(QWidget):
             print("You already guessed " + guessedChar)
             # guess.guess를 통해 최종 성공 여부를 반환
         else:
-            finished = self.guess.guess(guessedChar)
+            self.finished = self.guess.guess(guessedChar)
         self.guessedChars.setText(self.guess.getguessedChars())
         guessingword = ""
-        try:
-            for i in range(len(finished)):
-                guessingword = self.answer[i] if self.guess_list[i] == 1 else "_"
-        except UnboundLocalError:
-            pass
+        for i in range(len(self.finished)):
+            guessingword += self.answer[i]+" " if self.finished[i] == 1 else "_ "
         self.currentWord.setText(guessingword)
-        if maxTries > self.guess.getnumTries() and 0 not in finished:
+        if maxTries > self.guess.getnumTries() and 0 not in self.finished:
             print("Success")
             self.status_message.setText("Success")
             self.guessButton.setEnabled(False)
             self.newgameButton.setEnabled(True)
-        elif maxTries < self.guess.getnumTries() and 0 in finished:
+        elif maxTries < self.guess.getnumTries() and 0 in self.finished:
             # 루프가 다 돌고 완전히 실패했을 경우
             print(hangman.get(0))
             print("Word is "+self.guess.getanswer())
@@ -132,7 +132,8 @@ class HangmanGame(QWidget):
             print("Fail")
             self.guessButton.setEnabled(False)
             self.newgameButton.setEnabled(True)
-
+            display = hangman.get(maxTries - self.guess.getnumTries())
+            self.hangmanWindow.setText(display)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
