@@ -24,15 +24,9 @@ class Guess:
             for i in range(len(self.answer)):
                 if character == self.answer[i]:
                     self.guess_list[i] = 1
-                if self.guess_list[i] == 1:
-                    self.currentStatus += self.answer[i] + " "
-                    print(self.answer[i], end =' ')
-                else:
-                    self.currentStatus += "_ "
-                    print("_", end = ' ')
-                print(self.guess_list)
-            print()
-            print(self.guess_list)
+                self.currentStatus += self.answer[i] if self.guess_list[i] == 1 else "_"
+
+            print(self.currentStatus)
         return self.guess_list
 
     def getnumTries(self):
@@ -46,3 +40,4 @@ class Guess:
 
     def getanswer(self):
         return self.answer
+

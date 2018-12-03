@@ -68,9 +68,8 @@ class HangmanGame(QWidget):
     def gameMain(self):
         #단어들을 받아온다.
         word = Word()
-        answer = "core"
-        guess = Guess(word.readFromDB())
 
+        guess = Guess(word.readFromDB())
         #생명 갯수를 정해준다.
         hangman = Hangman()
         maxTries = hangman.getLife()
