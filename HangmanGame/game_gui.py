@@ -87,14 +87,13 @@ class HangmanGame(QWidget):
         self.guessedChars.clear()
         self.charInput.clear()
 
-        #guess = Guess(word.readFromDB())
+        guess = Guess(word.readFromDB())
 
         #생명 갯수를 정해준다.
         hangman = Hangman()
         maxTries = hangman.getLife()
-        #print("Current : " + "_ "*len(word.readFromDB()))
-        print("Current : " + "_ " * len("core"))
-        self.currentWord.setText("_"*len("core"))
+        print("Current : " + "_ "*len(guess))
+        self.currentWord.setText("_"*len(guess))
 
         display = hangman.get(maxTries - self.guess.getnumTries())
         print(display)
